@@ -1,0 +1,35 @@
+Design and Build Objects of types Individual, AU_Employee, Faculty, EN_Faculty and
+Design_Faculty as schematically represented below in Figure-01
+Figure-01
+Class Individual -
+Attributes
+This class must take name as an instance variable and birthday to be of None type
+Functions- get_name, add_birthday , get_age and __str__(Individual)
+Class AU_Employee
+Attributes
+The role of this class is to provide an unique identification for an employee in the Organization
+Functions
+Function- get_unique_id
+Class Faculty
+It inherits everything from the class AU_Employee
+Class EN_Faculty
+Attributes
+This class has to take two data attributes name and classroom_year
+Function
+Assigning class/batch to the Faculty
+Design a new class Roster_AU( )
+The role of this class is to assign faculty a course for given academic term
+Attributes of this class are:
+Empty list consist of Faculty
+Courses assigned to Empty Dictionary
+Functionalities this class must have;
+add_faculty
+“”” Assumes: faculty is of type Faculty add faculty to the empty dictionary created as an object in
+data attributes “””
+Avoid duplicity of Objects in this case
+add_course
+“”” Assumes: Course as a string add courses to the list of courses for faculty ”””
+If faculty not in mapping raise an Error
+get_courses
+“”” Returns a list of courses for a faculty “””
+Finally return sorted list of faculties from the allotted course dictionary
