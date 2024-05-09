@@ -33,3 +33,101 @@ If faculty not in mapping raise an Error
 get_courses
 “”” Returns a list of courses for a faculty “””
 Finally return sorted list of faculties from the allotted course dictionary
+
+from datetime import datetime
+
+class Individual():
+    def __init__(self, name):
+        self.name = name
+        self.birthday = None
+
+    def get_name(self):
+        return self.name
+
+    def add_birthday(self, birthday):
+        self.birthday = birthday
+
+    def get_age(self):
+        today = datetime.now().date()
+        age = today.year - self.birthday.year
+        return age
+
+    def __str__(self):
+        return f'Name : {self.name}, Birthday : {self.birthday}'
+
+class AU_Employee(Individual):
+    _new_enroll = 1
+    
+    def __init__(self, name):
+        super().__init__(name)
+        self.id = AU_Employee._new_enroll
+        AU_Employee._new_enroll += 1
+        self._strval = 'AU23B100' + str(self.id)
+    
+    def get_unique_id(self):
+        return self._strval
+
+class Faculty(AU_Employee):
+    pass
+
+class EN_Faculty(Faculty):
+    def __init__(self, name, classroom_year):
+        super().__init__(name)
+        self.classroom_year = classroom_year
+
+    def assign_class(self):
+        return self.classroom_year 
+
+class Roster_AU():
+    def __init__(self):
+        self.faculties = []
+        self.course_assign = {}
+
+    def add_faculty(self, faculty):
+        if faculty not in self.faculties:
+            self.faculties.append(faculty)
+            self.course_assign[faculty] = []
+        else:
+            raise ValueError("Faculty already exists in the roster.")
+
+    def add_course(self, faculty, course):
+        if faculty not in self.course_assign:
+            raise ValueError("Faculty not in mapping")
+        self.course_assign[faculty].append(course)
+
+    def get_courses(self, faculty):
+        if faculty not in self.course_assign:
+            raise ValueError("Faculty not in mapping")
+        return self.course_assign[faculty]
+
+    def get_sorted_faculties(self):
+        def sort_key(faculty):
+            return faculty.get_name()
+        
+        return sorted(self.course_assign.keys(), key=sort_key)
+
+    def get_sorted_faculties_with_courses(self):
+        sorted_faculties = self.get_sorted_faculties()
+        faculties_with_courses = {}
+        for faculty in sorted_faculties:
+            courses = self.get_courses(faculty)
+            faculties_with_courses[faculty] = courses
+        return faculties_with_courses
+
+faculty1 = EN_Faculty("Rushikesh Pawar", 2024)
+faculty2 = EN_Faculty("Rahul Thakur", 2024)
+faculty3 = EN_Faculty("Varshali Jaiswal", 2024)
+
+roster = Roster_AU()
+
+roster.add_faculty(faculty1)
+roster.add_faculty(faculty2)
+roster.add_faculty(faculty3)
+
+roster.add_course(faculty1, "ITC")
+roster.add_course(faculty1, "DT")
+roster.add_course(faculty2, "POE")
+roster.add_course(faculty3, "FOP")
+print("Faculties with Courses:")
+for faculty in roster.get_sorted_faculties_with_courses():
+    print(f"{faculty.get_name()}: {roster.get_courses(faculty)}")
